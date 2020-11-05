@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $categorias = [];
 $categorias[] = 'infantil';
 $categorias[] = 'adolescente';
@@ -10,31 +10,39 @@ $nome = $_POST['nome'];
 $idade = $_POST['idade'];
 if(empty($nome))
 {
-    echo "O nome não pode ser vazio";
+    $_SESSION["mensagem-de-erro"] = "O nome não pode ser vazio";
+    header("location: index.php");
     return;
 }
-if(strlen($nome) < 3)
+else if(strlen($nome) < 3)
 {
-    echo "O nome deve conter mais de 3 caracteres";
+    $_SESSION["mensagem-de-erro"] = "O nome deve conter mais de 3 caracteres";
+    header("location: index.php");
     return;
 }
-if(strlen($nome) > 40)
+else if(strlen($nome) > 40)
 {
-    echo "O nome deve conter menos de 40 caracteres";
+    $_SESSION["mensagem-de-erro"] = "O nome deve conter menos de 40 caracteres";
+    header("location: index.php");
     return;
 }
-if(!is_numeric($idade))
+else if(!is_numeric($idade))
 {
-    echo "Informe um número para idade";
+    $_SESSION["mensagem-de-erro"] = "Informe um número para idade";
+    header("location: index.php");
     return;
 }
 if($idade < 6)
 {
-    echo 'Idade menor que a permitida para a competição';
+    $_SESSION["mensagem-de-sucesso"] = 'Idade menor que a permitida para a competição';
+    header("location: index.php");
+    return;
 }
 else if ($idade <= 12)
 {
-    echo "O nadador ", $nome, " compete na categoria Infantil";
+    $_SESSION["mensagem-de-sucesso"] = "O nadador ". $nome. " compete na categoria Infantil";
+    header("location: index.php");
+    return;
     /*for ($i = 0; $i < count($categorias); $i++)
     {
         if ($categorias[$i] == 'infantil')
@@ -45,10 +53,14 @@ else if ($idade <= 12)
 }
 else if ($idade <= 18)
 {
-    echo "O nadador ", $nome, " compete na categoria adolescente";
+    $_SESSION["mensagem-de-sucesso"] = "O nadador ". $nome. " compete na categoria adolescente";
+    header("location: index.php");
+    return;
 }
 else
 {
-    echo "O nadador ", $nome, " compete na categoria adulto";
+    $_SESSION["mensagem-de-sucesso"] = "O nadador ". $nome. " compete na categoria adulto";
+    header("location: index.php");
+    return;
 }
 ?>
